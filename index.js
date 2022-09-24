@@ -9,95 +9,57 @@ import {gql, ApolloServer} from 'apollo-server'
     * - ID
 */
 
-const products = [
-    {
-        id: 1,
-        name: 'Mouse',
-        price: 99.90
-    },
-    {
-        id: 2,
-        name: 'TV',
-        price: 299.90
-    },
-    {
-        id: 3,
-        name: 'Notebook',
-        price: 9900.90
-    },
-    
-]
-
-const users = [
-    {
-        id: 1,
-        name: 'Joao',
-        age: 23,
-        salary: 3000,
-        active: true  
-    },
-    {
-        id: 2,
-        name: 'Matheus',
-        age: 13,
-        salary: 0,
-        active: false  
-    },
-    {
-        id: 3,
-        name: 'Joao',
-        age: 26,
-        salary: 3500,
-        active: true  
-    },
-    {
-        id: 4,
-        name: 'Marcio',
-        age: 43,
-        salary: 5000,
-        active: true  
-    }
-]
+const db = [
+  {
+    id: 1,
+    name: "Paulo",
+    email: "paulo@email.com",
+    tel_fix: "11 1234 1234",
+    profile: 1,
+  },
+  {
+    id: 2,
+    name: "Lucas",
+    email: "lucas@email.com",
+    tel_fix: "34 1234 1234",
+    profile: 2,
+  },
+];
+  
+const profiles = [
+  { id: 1, description: "ADMIN" },
+  { id: 2, description: "NORMAL" },
+];
 
 const typeDefs = gql`
-    type Product {
-        id: ID,
+    type User {
+        id: ID
         name: String,
-        price: Float
+        email: String,
+        tel: String,
+        profile: Int,
     }
 
-    type User {
-        id: ID!
-        name: String
-        age: Int
-        salary: Float
-        active: Boolean
-        techs: [
-            String!
-        ]! 
+    type Profile {
+        id: ID
+        description: String
     }
 
     type Query {
-        users: [User],
-        user(id: Int, name: String): User,
-        products: [Product]
+        users: [User]
     }
+
 `
 
 const resolvers = {
+    User: {
+        tel() {
+            return '1223'
+        } 
+    },
     Query: {
         users() {
-            return users
-        },
-        user(obj, args) {
-            const {id, name} = args
-            if (name) {
-                return users.find(user => user.name === name)
-            }
-            return users.find(user => user.id === id)
-        },
-        products() {
-            return products
+            return db
         }
     }
 }
