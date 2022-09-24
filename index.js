@@ -37,7 +37,7 @@ const typeDefs = gql`
         name: String,
         email: String,
         tel: String,
-        profile: Int,
+        profile: Profile,
     }
 
     type Profile {
@@ -46,20 +46,24 @@ const typeDefs = gql`
     }
 
     type Query {
-        users: [User]
+        user(id: Int): User
+        profiles: [Profile]
     }
 
 `
 
 const resolvers = {
     User: {
-        tel() {
-            return '1223'
-        } 
+        profile(obj) {
+            return profiles.find(profile => profile.id === obj.profile)
+        }
     },
     Query: {
-        users() {
-            return db
+        user(obj, args) {
+            return db.find(user => user.id === args.id)
+        },
+        profiles() {
+            return profiles
         }
     }
 }
