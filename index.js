@@ -1,14 +1,5 @@
 import {gql, ApolloServer} from 'apollo-server'
 
-/* * * * * * * * *
-    * Escalar Types
-    * - Int
-    * - Float
-    * - String
-    * - Boolean
-    * - ID
-*/
-
 const db = [
   {
     id: 1,
