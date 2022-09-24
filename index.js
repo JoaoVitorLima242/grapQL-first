@@ -32,6 +32,11 @@ const profiles = [
 ];
 
 const typeDefs = gql`
+    enum ProfileType {
+        ADMIN
+        NORMAL
+    }
+
     type User {
         id: ID
         name: String,
@@ -42,11 +47,12 @@ const typeDefs = gql`
 
     type Profile {
         id: ID
-        description: String
+        description: ProfileType
     }
 
     type Query {
         user(id: Int): User
+        users: [User]
         profiles: [Profile]
     }
 
@@ -64,6 +70,9 @@ const resolvers = {
         },
         profiles() {
             return profiles
+        },
+        users() {
+            return db
         }
     }
 }
