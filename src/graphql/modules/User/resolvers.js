@@ -26,6 +26,13 @@ module.exports = {
   },
   Mutation: {
     createUser(_, args) {
+        const {email} = args;
+
+        const userExist = db.users.some(u => u.email === email)
+
+        if (userExist) {
+            throw new Error(`This email already registered: (${email})`)
+        }
 
         const newUser = {
             ...args,
