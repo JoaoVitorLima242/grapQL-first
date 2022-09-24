@@ -8,6 +8,8 @@ const server = new ApolloServer({
         return new Error(err.message)
     } else if(err.message.startsWith('User didnt found!')) {
         return new Error(err.message)
+    } else {
+      return err
     }
   }
 });

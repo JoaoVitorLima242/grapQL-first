@@ -1,6 +1,6 @@
 const db = require("../../../db");
 
-function idGenerator(lista) {
+const idGenerator = (lista) => {
   let novoId;
   let ultimo = lista[lista.length - 1];
   if (!ultimo) {
@@ -10,6 +10,20 @@ function idGenerator(lista) {
   }
 
   return ++novoId;
+}
+
+const deleteUserByFilter = ({id, email}) => {
+  let user
+
+  if (id) {
+    user = db.users.find((u) => u.id == id) 
+    db.users = db.users.filter(u => u.id !== id)
+  } else {
+    user = db.users.find((u) => u.email == email) 
+    db.users = db.users.filter(u => u.email !== email)
+  }
+  
+  return !!user
 }
 
 module.exports = {
@@ -61,11 +75,8 @@ module.exports = {
 
       return updatedUser
     },
-    deleteUser(_, {id}) {
-      const user = db.users.find((u) => u.id == id) 
-      db.users = db.users.filter(u => u.id !== id)
-      
-      return !!user
+    deleteUser(_, {filtro}) {
+      return deleteUserByFilter(filtro)
     }
 
   }

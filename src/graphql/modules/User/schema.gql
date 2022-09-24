@@ -12,6 +12,11 @@ input UserInput {
     tel: String
 }
 
+input FiltroInput {
+    id: Int
+    email: String
+}
+
 type Query {
     user(id: Int): User
     users: [User]
@@ -23,5 +28,5 @@ type Mutation {
         id: Int!,
         data: UserInput
     ): User!,
-    deleteUser(id: Int!): Boolean 
+    deleteUser(filtro: FiltroInput!): Boolean 
 }
