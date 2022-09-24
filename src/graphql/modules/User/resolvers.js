@@ -45,7 +45,7 @@ module.exports = {
         return newUser
     },
     updateUser(_, {id, data}) {
-      const user = db.users.find((u) => u.id == id)
+      const user = db.users.find((u) => u.id === id)
       const userIndex = db.users.findIndex((u) => u.id === id)
 
       if (!user) {
@@ -57,11 +57,15 @@ module.exports = {
         ...data
       }
 
-      console.log(user)
-
       db.users.splice(userIndex, 1, updatedUser)
 
       return updatedUser
+    },
+    deleteUser(_, {id}) {
+      const user = db.users.find((u) => u.id == id) 
+      db.users = db.users.filter(u => u.id !== id)
+      
+      return !!user
     }
 
   }
