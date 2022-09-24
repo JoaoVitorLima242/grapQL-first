@@ -74,4 +74,4 @@ const server = new ApolloServer({
     resolvers
 })
 
-server.listen()
+server.listen().then(({url}) => console.log('Rodando na URL: ' + url))
