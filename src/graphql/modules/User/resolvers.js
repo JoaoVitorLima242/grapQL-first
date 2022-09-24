@@ -1,9 +1,21 @@
 const db = require("../../../db");
 
+function idGenerator(lista) {
+  let novoId;
+  let ultimo = lista[lista.length - 1];
+  if (!ultimo) {
+    novoId = 0;
+  } else {
+    novoId = ultimo.id;
+  }
+
+  return ++novoId;
+}
+
 module.exports = {
   User: {
     profile(user) {
-      return db.perfis.find((p) => p.id === user.profile_id);
+      return db.profiles.find((p) => p.id === user.profile );
     },
   },
   Query: {
@@ -12,4 +24,18 @@ module.exports = {
     },
     users: () => db.users,
   },
+  Mutation: {
+    createUser(_, args) {
+
+        const newUser = {
+            ...args,
+            id: idGenerator(db.users),
+            profile: 2
+        }
+
+        db.users.push(newUser)
+
+        return newUser
+    }
+  }
 };
