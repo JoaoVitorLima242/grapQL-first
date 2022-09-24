@@ -1,11 +1,8 @@
-import {ApolloServer} from 'apollo-server'
-
-import { typeDefs, resolvers} from './src/graphql/index.js'
+const { ApolloServer } = require("apollo-server");
+const graphql = require("./src/graphql");
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers
-})
+  ...graphql,
+});
 
-console.log(resolvers)
-server.listen().then(({url}) => console.log('Rodando na URL: ' + url))
+server.listen().then(({ url }) => console.log(url));

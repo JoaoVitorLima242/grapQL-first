@@ -1,13 +1,16 @@
-import GQLTools from 'graphql-tools'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url';
+const { join } = require("path");
+const {
+  loadFilesSync,
+  mergeTypeDefs,
+  mergeResolvers,
+} = require("graphql-tools");
 
+const allTypes = loadFilesSync(join(__dirname, "modules", "**", "*.gql"));
+const allResolvers = loadFilesSync(
+  join(__dirname, "modules", "**", "resolvers.js")
+);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const typeDefs = mergeTypeDefs(allTypes);
+const resolvers = mergeResolvers(allResolvers);
 
-const allTypes = GQLTools.loadFilesSync(join(__dirname, 'modules', '**', '*.gql'))
-const allResolvers = GQLTools.loadFilesSync(join(__dirname, 'modules', '**', 'resolvers.js'))
-
-export const typeDefs = GQLTools.mergeTypeDefs(allTypes)
-export const resolvers = GQLTools.mergeResolvers(allResolvers)
+module.exports = { typeDefs, resolvers };

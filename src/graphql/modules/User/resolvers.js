@@ -1,18 +1,15 @@
-import db from "../../../db"
+const db = require("../../../db");
 
-export default {
-    User: {
-        profile(obj) {
-            return db.profiles.find(profile => profile.id === obj.profile)
-        }
+module.exports = {
+  User: {
+    profile(user) {
+      return db.perfis.find((p) => p.id === user.profile_id);
     },
-    Query: {
-        user(obj, args) {
-            return db.users.find(user => user.id === args.id)
-        },
-        users() {
-            console.log(db.users)
-            return db.users
-        }
-    }
-}
+  },
+  Query: {
+    user(obj, args) {
+      return db.users.find((db) => db.id === args.id);
+    },
+    users: () => db.users,
+  },
+};

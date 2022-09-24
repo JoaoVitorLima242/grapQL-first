@@ -1,6 +1,6 @@
-import db from "../../../db"
+const db = require("../../../db");
 
-export default {
+module.exports = {
     Query: {
         profiles() {
             return db.profiles
