@@ -11,11 +11,14 @@ import {gql, ApolloServer} from 'apollo-server'
 
 const typeDefs = gql`
     type Query {
-        id: ID
+        id: ID!
         nome: String
         idade: Int
         salario: Float
         ativo: Boolean
+        tecnologias: [
+            String!
+        ]! 
     }
 `
 
@@ -35,6 +38,11 @@ const resolvers = {
         },
         id() {
             return 1231312312
+        },
+        tecnologias() {
+            return [
+                'React', 'Next', 'Node', 'JS'
+            ]
         }
     }
 }
