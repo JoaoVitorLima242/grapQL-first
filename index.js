@@ -9,40 +9,95 @@ import {gql, ApolloServer} from 'apollo-server'
     * - ID
 */
 
+const products = [
+    {
+        id: 1,
+        name: 'Mouse',
+        price: 99.90
+    },
+    {
+        id: 2,
+        name: 'TV',
+        price: 299.90
+    },
+    {
+        id: 3,
+        name: 'Notebook',
+        price: 9900.90
+    },
+    
+]
+
+const users = [
+    {
+        id: 1,
+        name: 'Joao',
+        age: 23,
+        salary: 3000,
+        active: true  
+    },
+    {
+        id: 2,
+        name: 'Matheus',
+        age: 13,
+        salary: 0,
+        active: false  
+    },
+    {
+        id: 3,
+        name: 'Joao',
+        age: 26,
+        salary: 3500,
+        active: true  
+    },
+    {
+        id: 4,
+        name: 'Marcio',
+        age: 43,
+        salary: 5000,
+        active: true  
+    }
+]
+
 const typeDefs = gql`
-    type Query {
+    type Product {
+        id: ID,
+        name: String,
+        price: Float
+    }
+
+    type User {
         id: ID!
-        nome: String
-        idade: Int
-        salario: Float
-        ativo: Boolean
-        tecnologias: [
+        name: String
+        age: Int
+        salary: Float
+        active: Boolean
+        techs: [
             String!
         ]! 
+    }
+
+    type Query {
+        users: [User],
+        user(id: Int, name: String): User,
+        products: [Product]
     }
 `
 
 const resolvers = {
     Query: {
-        idade() {
-            return 20
+        users() {
+            return users
         },
-        salario() {
-            return 10000.99
+        user(obj, args) {
+            const {id, name} = args
+            if (name) {
+                return users.find(user => user.name === name)
+            }
+            return users.find(user => user.id === id)
         },
-        nome() {
-            return 'Joao'
-        },
-        ativo() {
-            return true
-        },
-        id() {
-            return 1231312312
-        },
-        tecnologias() {
-            return [
-                'React', 'Next', 'Node', 'JS'
-            ]
+        products() {
+            return products
         }
     }
 }
