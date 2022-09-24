@@ -19,14 +19,14 @@ module.exports = {
     },
   },
   Query: {
-    user(obj, args) {
-      return db.users.find((db) => db.id === args.id);
+    user(obj, {data}) {
+      return db.users.find((db) => db.id === data.id);
     },
     users: () => db.users,
   },
   Mutation: {
-    createUser(_, args) {
-        const {email} = args;
+    createUser(_, {data}) {
+        const {email} = data;
 
         const userExist = db.users.some(u => u.email === email)
 
@@ -35,7 +35,7 @@ module.exports = {
         }
 
         const newUser = {
-            ...args,
+            ...data,
             id: idGenerator(db.users),
             profile: 2
         }
@@ -43,6 +43,26 @@ module.exports = {
         db.users.push(newUser)
 
         return newUser
+    },
+    updateUser(_, {id, data}) {
+      const user = db.users.find((u) => u.id == id)
+      const userIndex = db.users.findIndex((u) => u.id === id)
+
+      if (!user) {
+        throw new Error(`User didnt found!`)
     }
+
+      const updatedUser = {
+        ...user,
+        ...data
+      }
+
+      console.log(user)
+
+      db.users.splice(userIndex, 1, updatedUser)
+
+      return updatedUser
+    }
+
   }
 };

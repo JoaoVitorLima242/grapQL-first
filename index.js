@@ -6,6 +6,8 @@ const server = new ApolloServer({
   formatError: (err) => {
     if(err.message.startsWith('This email already registered:')) {
         return new Error(err.message)
+    } else if(err.message.startsWith('User didnt found!')) {
+        return new Error(err.message)
     }
   }
 });
